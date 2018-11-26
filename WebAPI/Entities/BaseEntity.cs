@@ -53,6 +53,11 @@ namespace Entities
         public string UDF5 { get; set; }
 
         /// <summary>
+        /// User Defined field 6
+        /// </summary>
+        public string UDF6 { get; set; }
+
+        /// <summary>
         /// Portal Id
         /// </summary>
         public string PortalID { get; set; }
