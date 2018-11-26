@@ -1,0 +1,1 @@
+C:\Lokesh\WebAPI-master\WebAPI.Tests\obj\Debug\WebAPI.Tests.csprojResolveAssemblyReference.cache

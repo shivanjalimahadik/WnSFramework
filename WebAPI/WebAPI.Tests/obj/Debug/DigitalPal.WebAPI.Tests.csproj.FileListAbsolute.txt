@@ -1,0 +1,2 @@
+C:\Snehal\Work\DigitalPalCodeBase\WebAPI\DigitalPal.WebAPI\DigitalPal.WebAPI.Tests\obj\Debug\DigitalPal.WebAPI.Tests.csprojResolveAssemblyReference.cache
+C:\Snehal\Work\DigitalPalCodeBase\WebAPI\DigitalPal.WebAPI\DigitalPal.WebAPI.Tests\obj\Debug\DigitalPal.WebAPI.Tests.csproj.CoreCompileInputs.cache

@@ -1,0 +1,14 @@
+C:\Snehal\Work\Git\Repo\WebAPI\DigitalPal.Entities\bin\Debug\DigitalPal.Entities.dll
+C:\Snehal\Work\Git\Repo\WebAPI\DigitalPal.Entities\bin\Debug\DigitalPal.Entities.pdb
+C:\Snehal\Work\Git\Repo\WebAPI\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.csproj.CoreCompileInputs.cache
+C:\Snehal\Work\Git\Repo\WebAPI\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.dll
+C:\Snehal\Work\Git\Repo\WebAPI\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.pdb
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\DigitalPal.Entities.dll
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\DigitalPal.Entities.pdb
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\DigitalPal.Common.dll
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\Castle.Core.dll
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\DigitalPal.Common.pdb
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\bin\Debug\Castle.Core.xml
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.csprojResolveAssemblyReference.cache
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.dll
+C:\Lokesh\WebAPI-master\DigitalPal.Entities\obj\Debug\DigitalPal.Entities.pdb
