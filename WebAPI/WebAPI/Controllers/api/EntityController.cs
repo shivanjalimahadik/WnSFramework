@@ -5,7 +5,7 @@ using Entities;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers.api
 {
     //[Authorize]
     //[Intercept(typeof(CallLogger))]

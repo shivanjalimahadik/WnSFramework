@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using BusinessLogic.Interface;
-using WebAPI.Controllers;
+using WebAPI.Controllers.api;
 
 namespace WebAPI.WireUp
 {
