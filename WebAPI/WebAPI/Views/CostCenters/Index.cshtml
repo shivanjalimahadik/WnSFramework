@@ -1,0 +1,35 @@
+﻿@model WebAPI.ViewModels.CostCentersViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Cost Center</h2>
+
+@Html.ActionLink("Add New", "New", "CostCenters")
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <td>
+                Cost Center Names
+            </td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.costList.Count(); i++)
+    {
+        <tr>
+            <td>
+                @Model.costList[i].CostCenterName
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "CostCenters", new { id = Model.costList[i].Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "CostCenters", new { id = Model.costList[i].Id }, null)
+            </td>
+        </tr>
+
+    }
+</table>
+
