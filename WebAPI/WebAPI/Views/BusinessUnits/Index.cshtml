@@ -1,0 +1,36 @@
+﻿@model WebAPI.ViewModels.BusinessUnitsViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Business Unit</h2>
+@Html.DropDownListFor(model => model.Id, new SelectList(Model.BUList, "Value", "Text"), "Select")
+@Html.ActionLink("Add New","New","BusinessUnits")
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <td>Business Unit Names</td>
+            <td>Business Unit Description</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.businessUnitList.Count(); i++)
+    {
+        <tr>
+            <td>
+                @Model.businessUnitList[i].BusinessUnitName
+            </td>
+            <td>
+                @Model.businessUnitList[i].BusinessUnitDescription
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "BusinessUnits", new { id = Model.businessUnitList[i].Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "BusinessUnits", new { id = Model.businessUnitList[i].Id }, null)
+            </td>
+        </tr>
+
+    }
+</table>
