@@ -1,0 +1,28 @@
+﻿@model WebAPI.ViewModels.ResourceCenterViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Organization Units</h3>
+<br />
+
+@Html.ActionLink("Add New","New", "ResourceCenter")
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Resource Center Name</th>
+            <th>Cost Center</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.RCWrapperList.Count; i++)
+    {
+        <tr>
+            <td>@Model.RCWrapperList[i].ResourceCenterName</td>
+            <td>@Model.RCWrapperList[i].CostCenterName</td>
+            <td>@Html.ActionLink("Edit", "Edit", "ResourceCenter", new { id = Model.RCWrapperList[i].Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "ResourceCenter", new { id = Model.RCWrapperList[i].Id }, null)</td>
+        </tr>
+    }
+</table>

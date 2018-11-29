@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IResourceCenter interface. Used to define all abstract methods of ResourceCenter proces.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing ResourceCenter id</param>
         /// <returns>Array of ResourceCenter proces</returns>
         ResourceCenter[] DeleteResourceCenters(string id);
+
+        /// <summary>
+        /// Get all Resource Centers
+        /// </summary>
+        /// <returns></returns>
+        ResourceCenterWrapper[] GetAllResourceCenters();
     }
 }

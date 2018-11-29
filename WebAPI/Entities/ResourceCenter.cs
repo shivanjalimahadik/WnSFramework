@@ -6,6 +6,6 @@
     {
         public string ResourceCenterName { get; set; }
 
-        public Guid CostCenterID { get; set; }
+        public Guid? CostCenterID { get; set; }
     }
 }
