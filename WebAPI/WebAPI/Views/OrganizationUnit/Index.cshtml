@@ -1,0 +1,30 @@
+﻿@model WebAPI.ViewModels.OrganizationUnitViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Organization Units</h3>
+<br />
+
+@Html.ActionLink("Add New","New","OrganizationUnit")
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Organization Unit Name</th>
+            <th>Description</th>
+            <th>Business Unit</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.OUWrapperList.Count; i++)
+    {
+        <tr>
+            <td>@Model.OUWrapperList[i].OrganizationUnitName</td>
+            <td>@Model.OUWrapperList[i].OrganizationUnitDescription</td>
+            <td>@Model.OUWrapperList[i].BusinessUnitName</td>
+            <td>@Html.ActionLink("Edit", "Edit", "OrganizationUnit", new { id = Model.OUWrapperList[i].Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "OrganizationUnit", new { id = Model.OUWrapperList[i].Id }, null)</td>
+        </tr>
+    }
+</table>

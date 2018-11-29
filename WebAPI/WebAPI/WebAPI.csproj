@@ -267,6 +267,7 @@
     <Compile Include="Controllers\CostCentersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegalEntityController.cs" />
+    <Compile Include="Controllers\OrganizationUnitController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="ExLogger\LogActionWebApiFilter.cs" />
@@ -280,11 +281,9 @@
     <Compile Include="OwinUtils\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-
     <Compile Include="ViewModels\CostCentersViewModel.cs" />
-
     <Compile Include="ViewModels\LegalEntityViewmodel.cs" />
-
+    <Compile Include="ViewModels\OrganizationUnitViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
     <Compile Include="WireUp\ApiMapper.cs" />
   </ItemGroup>
@@ -346,17 +345,15 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\New.cshtml" />
-
     <Content Include="Views\CostCenters\New.cshtml" />
     <Content Include="Views\CostCenters\Index.cshtml" />
-
     <Content Include="Views\LegalEntity\Index.cshtml" />
-
+    <Content Include="Views\OrganizationUnit\Index.cshtml" />
+    <Content Include="Views\OrganizationUnit\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Country\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

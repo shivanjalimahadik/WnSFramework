@@ -24,8 +24,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Supplier", "Index", "SupplierInformation", new { area = "" }, null)</li>
+                    @*<li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Legal Entity", "Index", "LegalEntity")</li>
+                            <li>@Html.ActionLink("BusinessUnit", "Edit", "Log")</li>
+                            <li>@Html.ActionLink("Organization Unit", "Index", "OrganizationUnit")</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -40,5 +47,10 @@
 
     
     @RenderSection("scripts", required: false)
+    <style type="text/css">
+        ul.nav li.dropdown:hover > ul.dropdown-menu {
+            display: block;
+        }
+    </style>
 </body>
 </html>

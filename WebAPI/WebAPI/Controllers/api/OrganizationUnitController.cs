@@ -31,6 +31,14 @@ namespace WebAPI.Controllers.api
         }
 
         [ResponseType(typeof(OrganizationUnit))]
+        [HttpGet]
+        [Route("GetAllOU")]
+        public IHttpActionResult GetAllOrganizationUnits()
+        {
+            return Ok(OrganizationUnitRepository.GetAllOrganizationUnits());
+        }
+
+        [ResponseType(typeof(OrganizationUnit))]
         [HttpPost]
         [Route("")]
         public IHttpActionResult Save(OrganizationUnit[] OrganizationUnit)
