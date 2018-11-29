@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IOrganizationUnit interface. Used to define all abstract methods of OrganizationUnit organizationUnit.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing OrganizationUnit id</param>
         /// <returns>Array of OrganizationUnit organizationUnit</returns>
         OrganizationUnit[] DeleteOrganizationUnits(string id);
+
+        /// <summary>
+        /// Get all Organization Units
+        /// </summary>
+        /// <returns></returns>
+        OUWrapper[] GetAllOrganizationUnits();
     }
 }

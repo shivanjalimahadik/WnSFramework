@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// OrganizationUnitDA class holds method implementation for database operations
@@ -87,6 +88,19 @@ namespace DataAccess
         public OrganizationUnit[] GetAll()
         {
             return this.FindAll().ToArray();
+        }
+
+        public OUWrapper[] GetAllOrganizationUnits()
+        {
+            List<OUWrapper> ouWrapper = new List<OUWrapper>();
+            var sql = string.Format("SELECT OU.Id, OU.OrganizationUnitName, OU.OrganizationUnitDescription, BU.BusinessUnitName FROM {0} OU INNER JOIN {1} BU ON " +
+                " OU.BusinessUnitID = BU.Id WHERE OU.IsActive = 1 AND BU.IsActive = 1 ", GetTableName(), TableNameConstants.BusinessUnit);
+
+            var dynamicOU = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(OUWrapper), new List<string> { "Id" });
+            ouWrapper = (Slapper.AutoMapper.MapDynamic<OUWrapper>(dynamicOU) as IEnumerable<OUWrapper>).ToList();
+
+            return ouWrapper.ToArray();
         }
 
         /// <summary>
@@ -177,6 +191,7 @@ namespace DataAccess
                 item.OrganizationUnitName,
                 item.OrganizationUnitDescription,
 
+                item.BusinessUnitID,
                 item.UDF1,
                 item.UDF2,
                 item.UDF3,
