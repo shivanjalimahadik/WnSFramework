@@ -268,6 +268,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegalEntityController.cs" />
     <Compile Include="Controllers\OrganizationUnitController.cs" />
+    <Compile Include="Controllers\ResourceCenterController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="ExLogger\LogActionWebApiFilter.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CostCentersViewModel.cs" />
     <Compile Include="ViewModels\LegalEntityViewmodel.cs" />
+    <Compile Include="ViewModels\ResourceCenterViewModel.cs" />
     <Compile Include="ViewModels\OrganizationUnitViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
     <Compile Include="WireUp\ApiMapper.cs" />
@@ -350,6 +352,8 @@
     <Content Include="Views\LegalEntity\Index.cshtml" />
     <Content Include="Views\OrganizationUnit\Index.cshtml" />
     <Content Include="Views\OrganizationUnit\New.cshtml" />
+    <Content Include="Views\ResourceCenter\Index.cshtml" />
+    <Content Include="Views\ResourceCenter\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

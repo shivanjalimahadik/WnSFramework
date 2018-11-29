@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// ResourceCenterDA class holds method implementation for database operations
@@ -87,6 +88,19 @@ namespace DataAccess
         public ResourceCenter[] GetAll()
         {
             return this.FindAll().ToArray();
+        }
+
+        public ResourceCenterWrapper[] GetAllResourceCenters()
+        {
+            List<ResourceCenterWrapper> rcWrapper = new List<ResourceCenterWrapper>();
+            var sql = string.Format("SELECT RC.Id, RC.ResourceCenterName, CC.CostCenterName FROM {0} RC INNER JOIN {1} CC ON " +
+                " RC.CostCenterID = CC.Id WHERE RC.IsActive = 1 AND CC.IsActive = 1 ", GetTableName(), TableNameConstants.CostCenter);
+
+            var dynamicRC = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(ResourceCenterWrapper), new List<string> { "Id" });
+            rcWrapper = (Slapper.AutoMapper.MapDynamic<ResourceCenterWrapper>(dynamicRC) as IEnumerable<ResourceCenterWrapper>).ToList();
+
+            return rcWrapper.ToArray();
         }
 
         /// <summary>
