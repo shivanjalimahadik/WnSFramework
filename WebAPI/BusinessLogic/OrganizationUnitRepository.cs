@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class OrganizationUnitRepository : IOrganizationUnitRepository
     {
         /// <summary>
@@ -115,6 +117,11 @@ namespace BusinessLogic
         public OrganizationUnit[] Delete(string id)
         {
             return _OrganizationUnitDA.DeleteOrganizationUnits(id);
+        }
+
+        public OUWrapper[] GetAllOrganizationUnits()
+        {
+            return _OrganizationUnitDA.GetAllOrganizationUnits();
         }
     }
 }

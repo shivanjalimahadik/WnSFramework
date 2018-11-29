@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// ResourceCenter interface 
@@ -77,5 +78,11 @@ namespace BusinessLogic.Interface
         /// <param name="id">ResourceCenter id</param>
         /// <returns>Array of ResourceCenter</returns>
         ResourceCenter[] Delete(string id);
+
+        /// <summary>
+        /// Get all Resource Center
+        /// </summary>
+        /// <returns></returns>
+        ResourceCenterWrapper[] GetAllResourceCenters();
     }
 }

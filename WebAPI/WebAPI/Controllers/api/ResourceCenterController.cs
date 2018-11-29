@@ -31,6 +31,14 @@ namespace WebAPI.Controllers.api
         }
 
         [ResponseType(typeof(ResourceCenter))]
+        [HttpGet]
+        [Route("GetAllRC")]
+        public IHttpActionResult GetAllResourceCenters()
+        {
+            return Ok(ResourceCenterRepository.GetAllResourceCenters());
+        }
+
+        [ResponseType(typeof(ResourceCenter))]
         [HttpPost]
         [Route("")]
         public IHttpActionResult Save(ResourceCenter[] resourceCenter)

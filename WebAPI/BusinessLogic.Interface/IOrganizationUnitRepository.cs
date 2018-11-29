@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// OrganizationUnit interface 
@@ -77,5 +78,11 @@ namespace BusinessLogic.Interface
         /// <param name="id">OrganizationUnit id</param>
         /// <returns>Array of OrganizationUnit</returns>
         OrganizationUnit[] Delete(string id);
+
+        /// <summary>
+        /// Get all Organization units
+        /// </summary>
+        /// <returns></returns>
+        OUWrapper[] GetAllOrganizationUnits();
     }
 }
