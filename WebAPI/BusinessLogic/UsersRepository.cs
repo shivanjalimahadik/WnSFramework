@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class UsersRepository : IUsersRepository
     {
         /// <summary>
@@ -79,7 +81,7 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Get all Categories
+        /// Get all Users
         /// </summary>
         /// <returns>Array of Users</returns>
         public Users[] GetAll()
@@ -115,6 +117,15 @@ namespace BusinessLogic
         public Users[] Delete(string id)
         {
             return _userDA.DeleteUserss(id);
+        }
+
+        /// <summary>
+        /// Get all Users
+        /// </summary>
+        /// <returns>Array of Users</returns>
+        public UsersWrapper[] GetAllUsers()
+        {
+            return _userDA.GetAllUsers();
         }
     }
 }
