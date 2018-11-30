@@ -31,6 +31,14 @@ namespace WebAPI.Controllers.api
         }
 
         [ResponseType(typeof(Users))]
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public IHttpActionResult GetAllUsers()
+        {
+            return Ok(UsersRepository.GetAllUsers());
+        }
+
+        [ResponseType(typeof(Users))]
         [HttpPost]
         [Route("")]
         public IHttpActionResult Save(Users[] Users)
