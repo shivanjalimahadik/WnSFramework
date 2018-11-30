@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// BusinessUnitDA class holds method implementation for database operations
@@ -88,6 +89,20 @@ namespace DataAccess
         {
             return this.FindAll().ToArray();
         }
+
+        public BUWrapper[]GetAllBusinessUnits()
+        {
+            List<BUWrapper> buWrapper = new List<BUWrapper>();
+            var sql = string.Format("SELECT BU.Id, BU.BusinessUnitName, BU.BusinessUnitDescription, LE.LegalEntityName FROM {0} BU INNER JOIN {1} LE ON " +
+                " BU.LegalEntityID = LE.Id WHERE BU.IsActive = 1 AND LE.IsActive = 1 ", GetTableName(), TableNameConstants.LegalEntity);
+
+            var dynamicBU = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(BUWrapper), new List<string> { "Id" });
+            buWrapper = (Slapper.AutoMapper.MapDynamic<BUWrapper>(dynamicBU) as IEnumerable<BUWrapper>).ToList();
+
+            return buWrapper.ToArray();
+        }
+
 
         /// <summary>
         /// Get BusinessUnits
@@ -176,7 +191,7 @@ namespace DataAccess
                 item.Id,
                 item.BusinessUnitName,
                 item.BusinessUnitDescription,
-
+                item.LegalEntityID,
                 item.UDF1,
                 item.UDF2,
                 item.UDF3,

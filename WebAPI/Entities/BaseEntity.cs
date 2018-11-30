@@ -113,5 +113,11 @@ namespace Entities
         /// Gets or sets a value indicating whether entity is deleted.
         /// </summary>
         public bool IsActive { get; set; } = true;
+
+        /// <summary>
+        /// Legal Entity Id
+        /// </summary>
+        public Guid? LegalEntityID { get; set; }
+
     }
 }

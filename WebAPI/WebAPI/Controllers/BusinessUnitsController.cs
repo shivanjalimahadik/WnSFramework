@@ -1,9 +1,9 @@
 ﻿using Entities;
+using Entities.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
 using WebAPI.ViewModels;
 
@@ -14,51 +14,68 @@ namespace WebAPI.Controllers
         // GET: BusinessUnits
         public ActionResult Index()
         {
-            IList<BusinessUnit> businessUnit = null;
+            IList<BUWrapper> businessUnitList = null;
 
             using (var client = new HttpClient())
             {
                 var businessUnitUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "BusinessUnit" }, Request.Url.Scheme);
-                var responseTask = client.GetAsync(businessUnitUrl);
+                string requestUrl = businessUnitUrl.ToString() + "/GetAllBU";
+                var responseTask = client.GetAsync(requestUrl);
                 responseTask.Wait();
                 var result = responseTask.Result;
 
-                if(result.IsSuccessStatusCode)
+                if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<IEnumerable<BusinessUnit>>();
+                    var readTask = result.Content.ReadAsAsync<IEnumerable<BUWrapper>>();
                     readTask.Wait();
-                    businessUnit = readTask.Result.ToList();
+                    businessUnitList = readTask.Result.ToList();
+                }
+            }
+
+            IList<LegalEntity> LegalEntityList = null;
+
+            using (var client = new HttpClient())
+            {
+                var legalEntityUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "LegalEntity" }, Request.Url.Scheme);
+                var responseTask = client.GetAsync(legalEntityUrl);
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<IEnumerable<LegalEntity>>();
+                    readTask.Wait();
+                    LegalEntityList = readTask.Result.ToList();
+                    TempData["LEList"] = LegalEntityList;
+                    TempData.Keep();
                 }
             }
 
             BusinessUnitsViewModel businessUnitModel = new BusinessUnitsViewModel()
             {
-
-                businessUnitList = businessUnit
+                BUWrapperList = businessUnitList
             };       
                 return View(businessUnitModel);
         }
 
         public ActionResult New()
         {
-            
-            BusinessUnitsViewModel businessUnitViewModel = new BusinessUnitsViewModel();
-         
-
-            // BUList = businessUnitList.Select(c => new SelectListItem
-            //{
-            //    Text = c.BusinessUnitName,
-            //    Value = c.Id.ToString()
-            //})
+           BusinessUnitsViewModel businessUnitViewModel = new BusinessUnitsViewModel
+            {
+                LegalEntityList = (IList<LegalEntity>)TempData["LEList"],
+                LEList = ((IList<LegalEntity>)TempData["LEList"]).Select(c => new SelectListItem
+                {
+                    Text = c.LegalEntityName,
+                    Value = c.Id.ToString()
+                })
+            };
 
             return View(businessUnitViewModel);
-
-
         }
 
         public ActionResult Edit(string id)
         {
-            BusinessUnit businessUnit = null;
+            BusinessUnit bu = null;
  
 
             using (var client = new HttpClient())
@@ -72,38 +89,44 @@ namespace WebAPI.Controllers
                 {
                     var readTask = result.Content.ReadAsAsync<BusinessUnit>();
                     readTask.Wait();
-                    businessUnit = readTask.Result;
+                    bu = readTask.Result;
                 }
             }
 
             BusinessUnitsViewModel businessUnitViewModel = new BusinessUnitsViewModel()
             {
+                Id = bu.Id,
+                BusinessUnitName = bu.BusinessUnitName,
+                BusinessUnitDescription = bu.BusinessUnitDescription,
+                LEId = bu.LegalEntityID,
 
-                BusinessUnitName = businessUnit.BusinessUnitName,
-                BusinessUnitDescription = businessUnit.BusinessUnitDescription,
-                Id = new Guid(id),
-
-                //businessUnitList = (IList<BusinessUnit>) 
-                //LEList = businessUnitList.Select(c => new SelectListItem
-                //{
-                //    Text = c.BusinessUnitName,
-                //    Value = c.Id.ToString()
-                //})
+                LegalEntityList = (IList<LegalEntity>)TempData["LEList"],
+                LEList = ((IList<LegalEntity>)TempData["LEList"]).Select(c => new SelectListItem
+                {
+                    Text = c.LegalEntityName,
+                    Value = c.Id.ToString()
+                })
 
             };
 
             return View("New", businessUnitViewModel);
         }
 
-        public ActionResult Save(BusinessUnitsViewModel rvm)
+        public ActionResult Save(BusinessUnitsViewModel buvm)
         {
             if (ModelState.IsValid)
             {
                 List<BusinessUnit> businessUnitList = new List<BusinessUnit>();
 
-                if (string.IsNullOrEmpty(Convert.ToString(rvm.Id)) || string.Equals(Convert.ToString(rvm.Id), "00000000-0000-0000-0000-000000000000"))
+                if (string.IsNullOrEmpty(Convert.ToString(buvm.Id)) || string.Equals(Convert.ToString(buvm.Id), "00000000-0000-0000-0000-000000000000"))
                 {
-                    businessUnitList.Add(new BusinessUnit { BusinessUnitName = rvm.BusinessUnitName, BusinessUnitDescription= rvm.BusinessUnitDescription });
+                    businessUnitList.Add(new BusinessUnit
+                    {
+                        BusinessUnitName = buvm.BusinessUnitName,
+                        BusinessUnitDescription = buvm.BusinessUnitDescription,
+                        LegalEntityID = buvm.LEId
+                    });
+
                     using (var client = new HttpClient())
                     {
                         var businessUnitUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "BusinessUnit" }, Request.Url.Scheme);
@@ -119,7 +142,13 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
-                    businessUnitList.Add(new BusinessUnit { Id = rvm.Id, BusinessUnitName = rvm.BusinessUnitName, BusinessUnitDescription = rvm.BusinessUnitDescription });
+                    businessUnitList.Add(new BusinessUnit
+                    {
+                        Id = buvm.Id, BusinessUnitName = buvm.BusinessUnitName,
+                        BusinessUnitDescription = buvm.BusinessUnitDescription,
+                        LegalEntityID = buvm.LEId
+                    });
+
                     using (var client = new HttpClient())
                     {
                         var businessUnitUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "BusinessUnit" }, Request.Url.Scheme);

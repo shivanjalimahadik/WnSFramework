@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IBusinessUnit interface. Used to define all abstract methods of BusinessUnit entity.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing BusinessUnit id</param>
         /// <returns>Array of BusinessUnit entity</returns>
         BusinessUnit[] DeleteBusinessUnits(string id);
+
+        /// <summary>
+        /// Get all Organization Units
+        /// </summary>
+        /// <returns></returns>
+        BUWrapper[] GetAllBusinessUnits();
     }
 }

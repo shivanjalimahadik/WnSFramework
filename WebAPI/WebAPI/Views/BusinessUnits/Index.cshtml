@@ -4,32 +4,26 @@
 }
 
 <h2>Business Unit</h2>
-@Html.DropDownListFor(model => model.Id, new SelectList(Model.BUList, "Value", "Text"), "Select")
+@*@Html.DropDownListFor(model => model.Id, new SelectList(Model.LEList, "Value", "Text"), "Select")*@
 @Html.ActionLink("Add New","New","BusinessUnits")
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
-            <td>Business Unit Names</td>
-            <td>Business Unit Description</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <th>Business Unit Names</th>
+            <th>Description</th>
+            <th>Legal Entity</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
-    @for (int i = 0; i < Model.businessUnitList.Count(); i++)
+    @for (int i = 0; i < Model.BUWrapperList.Count(); i++)
     {
         <tr>
-            <td>
-                @Model.businessUnitList[i].BusinessUnitName
-            </td>
-            <td>
-                @Model.businessUnitList[i].BusinessUnitDescription
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "BusinessUnits", new { id = Model.businessUnitList[i].Id }, null)
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", "BusinessUnits", new { id = Model.businessUnitList[i].Id }, null)
-            </td>
+            <td>@Model.BUWrapperList[i].BusinessUnitName</td>
+            <td>@Model.BUWrapperList[i].BusinessUnitDescription</td>
+            <td>@Model.BUWrapperList[i].LegalEntityName</td>
+            <td>@Html.ActionLink("Edit", "Edit", "BusinessUnits", new { id = Model.BUWrapperList[i].Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "BusinessUnits", new { id = Model.BUWrapperList[i].Id }, null)</td>
         </tr>
 
     }
