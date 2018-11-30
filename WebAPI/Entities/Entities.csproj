@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessRule.cs" />
     <Compile Include="Users.cs" />
+    <Compile Include="Wrappers\BUWrapper.cs" />
     <Compile Include="Wrappers\ResourceCenterWrapper.cs" />
     <Compile Include="Wrappers\OUWrapper.cs" />
     <Compile Include="Wrappers\UsersWrapper.cs" />

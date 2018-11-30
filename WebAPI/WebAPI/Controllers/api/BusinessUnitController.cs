@@ -31,6 +31,14 @@ namespace WebAPI.Controllers.api
         }
 
         [ResponseType(typeof(BusinessUnit))]
+        [HttpGet]
+        [Route("GetAllBU")]
+        public IHttpActionResult GetAllBusinessUnits()
+        {
+            return Ok(BusinessUnitRepository.GetAllBusinessUnits());
+        }
+
+        [ResponseType(typeof(BusinessUnit))]
         [HttpPost]
         [Route("")]
         public IHttpActionResult Save(BusinessUnit[] BusinessUnit)
