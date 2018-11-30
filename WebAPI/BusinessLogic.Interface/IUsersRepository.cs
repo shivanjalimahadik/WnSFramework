@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// Users interface 
@@ -52,7 +53,7 @@ namespace BusinessLogic.Interface
         Users[] Get(IEnumerable<Guid?> ids);
 
         /// <summary>
-        /// Get all Categories
+        /// Get all Users
         /// </summary>
         /// <returns>Array of Users</returns>
         Users[] GetAll();
@@ -77,5 +78,11 @@ namespace BusinessLogic.Interface
         /// <param name="id">Users id</param>
         /// <returns>Array of Users</returns>
         Users[] Delete(string id);
+
+        /// <summary>
+        /// Get all Users
+        /// </summary>
+        /// <returns>Array of Users</returns>
+        UsersWrapper[] GetAllUsers();
     }
 }

@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IUsers interface. Used to define all abstract methods of Users entity.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing Users id</param>
         /// <returns>Array of Users entity</returns>
         Users[] DeleteUserss(string id);
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns>Array of Users entity</returns>
+        UsersWrapper[] GetAllUsers();
     }
 }

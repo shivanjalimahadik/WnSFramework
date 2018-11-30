@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// UsersDA class holds method implementation for database operations
@@ -87,6 +88,24 @@ namespace DataAccess
         public Users[] GetAll()
         {
             return this.FindAll().ToArray();
+        }
+
+        /// <summary>
+        /// Get all Userss
+        /// </summary>
+        /// <returns>Array of Users</returns>
+        public UsersWrapper[] GetAllUsers()
+        {
+            List<UsersWrapper> userWrapper = new List<UsersWrapper>();
+            var sql = string.Format("SELECT U.Id, U.UserName, U.FirstName, U.LastName, U.Email, U.Password, U.PasswordExpiry, U.ContactNo, OU.OrganizationUnitName, BU.BusinessUnitName " +
+                " FROM {0} U INNER JOIN {1} OU ON U.OrganizationUnitID = OU.Id INNER JOIN {2} BU ON U.BusinessUnitID = BU.Id " +
+                " WHERE U.IsActive = 1 ", GetTableName(), TableNameConstants.OrganizationUnit, TableNameConstants.BusinessUnit);
+
+            var dynamicUser = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(UsersWrapper), new List<string> { "Id" });
+            userWrapper = (Slapper.AutoMapper.MapDynamic<UsersWrapper>(dynamicUser) as IEnumerable<UsersWrapper>).ToList();
+
+            return userWrapper.ToArray();
         }
 
         /// <summary>

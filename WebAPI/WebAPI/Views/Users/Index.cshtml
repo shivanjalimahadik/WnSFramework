@@ -1,0 +1,36 @@
+﻿@model WebAPI.ViewModels.UsersViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Users</h3>
+<br />
+
+@Html.ActionLink("Add New", "New", "Users")
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>First name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Organization Unit</th>
+            <th>Business Unit</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.UsersList.Count; i++)
+    {
+        <tr>
+            <td>@Model.UsersList[i].UserName</td>
+            <td>@Model.UsersList[i].FirstName</td>
+            <td>@Model.UsersList[i].LastName</td>
+            <td>@Model.UsersList[i].Email</td>
+            <td>@Model.UsersList[i].OrganizationUnitName</td>
+            <td>@Model.UsersList[i].BusinessUnitName</td>
+            <td>@Html.ActionLink("Edit","Edit", "Users", new { id = Model.UsersList[i].Id}, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Users", new { id = Model.UsersList[i].Id }, null)</td>
+        </tr>
+    }
+</table>

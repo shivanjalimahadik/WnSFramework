@@ -63,6 +63,7 @@
     <Compile Include="Wrappers\BUWrapper.cs" />
     <Compile Include="Wrappers\ResourceCenterWrapper.cs" />
     <Compile Include="Wrappers\OUWrapper.cs" />
+    <Compile Include="Wrappers\UsersWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
