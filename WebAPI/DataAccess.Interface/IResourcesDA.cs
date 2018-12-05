@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IResources interface. Used to define all abstract methods of Resources proces.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing Resources id</param>
         /// <returns>Array of Resources proces</returns>
         Resources[] DeleteResourcess(string id);
+
+        /// <summary>
+        /// Get all Resources
+        /// </summary>
+        /// <returns></returns>
+        ResourceWrapper[] GetAllResources();
     }
 }

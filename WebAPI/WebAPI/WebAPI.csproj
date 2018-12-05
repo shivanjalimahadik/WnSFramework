@@ -264,11 +264,14 @@
     <Compile Include="Controllers\api\BusinessUnitController.cs" />
     <Compile Include="Controllers\api\BusinessRuleController.cs" />
     <Compile Include="Controllers\api\UsersController.cs" />
+    <Compile Include="Controllers\BusinessUnitsController.cs" />
     <Compile Include="Controllers\CostCentersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegalEntityController.cs" />
     <Compile Include="Controllers\OrganizationUnitController.cs" />
+    <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ResourceCenterController.cs" />
+    <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserRoleMappingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -284,10 +287,13 @@
     <Compile Include="OwinUtils\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BusinessUnitsViewModel.cs" />
     <Compile Include="ViewModels\CostCentersViewModel.cs" />
     <Compile Include="ViewModels\LegalEntityViewmodel.cs" />
+    <Compile Include="ViewModels\ProcessViewModel.cs" />
     <Compile Include="ViewModels\ResourceCenterViewModel.cs" />
     <Compile Include="ViewModels\OrganizationUnitViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
     <Compile Include="ViewModels\UserRoleMappingViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
@@ -397,14 +403,23 @@
     <Content Include="Views\CostCenters\New.cshtml" />
     <Content Include="Views\CostCenters\Index.cshtml" />
     <Content Include="Views\LegalEntity\Index.cshtml" />
+    <Content Include="Views\BusinessUnits\Index.cshtml" />
+    <Content Include="Views\BusinessUnits\New.cshtml" />
     <Content Include="Views\OrganizationUnit\Index.cshtml" />
     <Content Include="Views\OrganizationUnit\New.cshtml" />
     <Content Include="Views\ResourceCenter\Index.cshtml" />
     <Content Include="Views\ResourceCenter\New.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\New.cshtml" />
+
     <Content Include="Views\UserRoleMapping\Index.cshtml" />
     <Content Include="Views\UserRoleMapping\New.cshtml" />
+
+    <Content Include="Views\Resources\Index.cshtml" />
+    <Content Include="Views\Resources\New.cshtml" />
+    <Content Include="Views\Process\Index.cshtml" />
+    <Content Include="Views\Process\New.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

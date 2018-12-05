@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class BusinessUnitRepository : IBusinessUnitRepository
     {
         /// <summary>
@@ -115,6 +117,15 @@ namespace BusinessLogic
         public BusinessUnit[] Delete(string id)
         {
             return _BusinessUnitDA.DeleteBusinessUnits(id);
+        }
+
+        /// <summary>
+        /// Get all Business units
+        /// </summary>
+        /// <returns></returns>
+        public BUWrapper[] GetAllBusinessUnits()
+        {
+            return _BusinessUnitDA.GetAllBusinessUnits();
         }
     }
 }

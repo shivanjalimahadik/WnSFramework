@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// Resources interface 
@@ -77,5 +78,11 @@ namespace BusinessLogic.Interface
         /// <param name="id">Resources id</param>
         /// <returns>Array of Resources</returns>
         Resources[] Delete(string id);
+
+        /// <summary>
+        /// Get all Resources
+        /// </summary>
+        /// <returns></returns>
+        ResourceWrapper[] GetAllResources();
     }
 }

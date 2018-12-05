@@ -30,6 +30,14 @@ namespace WebAPI.Controllers.api
             return Ok(ProcessRepository.GetAll());
         }
 
+        [ResponseType(typeof(BusinessUnit))]
+        [HttpGet]
+        [Route("GetAllP")]
+        public IHttpActionResult GetAllProcess()
+        {
+            return Ok(ProcessRepository.GetAllProcess());
+        }
+
         [ResponseType(typeof(Process))]
         [HttpPost]
         [Route("")]

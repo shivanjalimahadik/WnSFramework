@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// Process interface 
@@ -77,5 +78,11 @@ namespace BusinessLogic.Interface
         /// <param name="id">Process id</param>
         /// <returns>Array of Process</returns>
         Process[] Delete(string id);
+
+        /// <summary>
+        /// Get all Process
+        /// </summary>
+        /// <returns></returns>
+        ProcessWrapper[] GetAllProcess();
     }
 }

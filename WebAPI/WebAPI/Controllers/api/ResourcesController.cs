@@ -30,6 +30,14 @@ namespace WebAPI.Controllers.api
             return Ok(ResourcesRepository.GetAll());
         }
 
+        [ResponseType(typeof(BusinessUnit))]
+        [HttpGet]
+        [Route("GetAllR")]
+        public IHttpActionResult GetAllResources()
+        {
+            return Ok(ResourcesRepository.GetAllResources());
+        }
+
         [ResponseType(typeof(Resources))]
         [HttpPost]
         [Route("")]

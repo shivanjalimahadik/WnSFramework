@@ -5,5 +5,6 @@
         public string BusinessUnitName { get; set; }
 
         public string BusinessUnitDescription { get; set; }
+
     }
 }
