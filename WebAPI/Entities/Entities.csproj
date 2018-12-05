@@ -62,6 +62,7 @@
     <Compile Include="Users.cs" />
     <Compile Include="Wrappers\ResourceCenterWrapper.cs" />
     <Compile Include="Wrappers\OUWrapper.cs" />
+    <Compile Include="Wrappers\UserRoleWrapper.cs" />
     <Compile Include="Wrappers\UsersWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class UserRoleMappingRepository : IUserRoleMappingRepository
     {
         /// <summary>
@@ -79,12 +81,21 @@ namespace BusinessLogic
         }
 
         /// <summary>
-        /// Get all Categories
+        /// Get all User role mappings
         /// </summary>
         /// <returns>Array of UserRoleMapping</returns>
         public UserRoleMapping[] GetAll()
         {
             return _UserRoleMappingDA.GetAll();
+        }
+
+        /// <summary>
+        /// Get all User role mappings
+        /// </summary>
+        /// <returns>Array of UserRoleMapping</returns>
+        public UserRoleWrapper[] GetAllUserRoleMapping()
+        {
+            return _UserRoleMappingDA.GetAllUserRoleMapping();
         }
 
         /// <summary>

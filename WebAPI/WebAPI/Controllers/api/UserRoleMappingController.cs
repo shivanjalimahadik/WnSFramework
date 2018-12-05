@@ -2,6 +2,10 @@
 using BusinessLogic.Interface;
 using Common.LogUtils;
 using Entities;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -22,12 +26,30 @@ namespace WebAPI.Controllers.api
             return Ok(UserRoleMappingRepository.Get(id));
         }
 
+        [Route("ids")]
+        [ResponseType(typeof(UserRoleMapping))]
+        [HttpGet]
+        public IHttpActionResult Get([FromUri] object ids)
+        {
+            IEnumerable<Guid?> data = JsonConvert.DeserializeObject<IEnumerable<Guid?>>(ids.ToString());
+            return Ok(UserRoleMappingRepository.Get(data));
+            //return Ok();
+        }
+
         [ResponseType(typeof(UserRoleMapping))]
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll()
         {
             return Ok(UserRoleMappingRepository.GetAll());
+        }
+
+        [ResponseType(typeof(UserRoleMapping))]
+        [HttpGet]
+        [Route("GetAllUserRole")]
+        public IHttpActionResult GetAllUserRoleMapping()
+        {
+            return Ok(UserRoleMappingRepository.GetAllUserRoleMapping());
         }
 
         [ResponseType(typeof(UserRoleMapping))]

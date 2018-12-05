@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IUserRoleMapping interface. Used to define all abstract methods of UserRoleMapping proces.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing UserRoleMapping id</param>
         /// <returns>Array of UserRoleMapping proces</returns>
         UserRoleMapping[] DeleteUserRoleMappings(string id);
+
+        /// <summary>
+        /// Gets all UserRoleMappings
+        /// </summary>
+        /// <returns>Array of UserRoleMapping proces</returns>
+        UserRoleWrapper[] GetAllUserRoleMapping();
     }
 }

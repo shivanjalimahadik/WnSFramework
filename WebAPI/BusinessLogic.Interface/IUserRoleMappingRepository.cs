@@ -10,6 +10,7 @@ namespace BusinessLogic.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// UserRoleMapping interface 
@@ -52,10 +53,16 @@ namespace BusinessLogic.Interface
         UserRoleMapping[] Get(IEnumerable<Guid?> ids);
 
         /// <summary>
-        /// Get all Categories
+        /// Get all User Role mappings
         /// </summary>
         /// <returns>Array of UserRoleMapping</returns>
         UserRoleMapping[] GetAll();
+
+        /// <summary>
+        /// Get all user role mappings
+        /// </summary>
+        /// <returns>Array of UserRoleMapping</returns>
+        UserRoleWrapper[] GetAllUserRoleMapping();
 
         /// <summary>
         /// Get UserRoleMapping
