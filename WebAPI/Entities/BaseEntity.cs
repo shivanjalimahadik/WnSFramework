@@ -119,5 +119,15 @@ namespace Entities
         /// </summary>
         public Guid? LegalEntityID { get; set; }
 
+        /// <summary>
+        /// Resource Center Id
+        /// </summary>
+        public Guid? ResourceCenterID { get; set; }
+
+        /// <summary>
+        /// Resource Id
+        /// </summary>
+        public Guid? ResourcesID { get; set; }
+
     }
 }

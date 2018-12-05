@@ -80,7 +80,7 @@ namespace BusinessLogic.Interface
         BusinessUnit[] Delete(string id);
 
         /// <summary>
-        /// Get all Organization units
+        /// Get all Business units
         /// </summary>
         /// <returns></returns>
         BUWrapper[] GetAllBusinessUnits();

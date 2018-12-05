@@ -80,7 +80,7 @@ namespace DataAccess.Interface
         BusinessUnit[] DeleteBusinessUnits(string id);
 
         /// <summary>
-        /// Get all Organization Units
+        /// Get all Business Units
         /// </summary>
         /// <returns></returns>
         BUWrapper[] GetAllBusinessUnits();

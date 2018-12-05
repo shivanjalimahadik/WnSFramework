@@ -1,0 +1,29 @@
+﻿@model WebAPI.ViewModels.ProcessViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Process/Activity</h2>
+
+@Html.ActionLink("Add New", "New", "Process")
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Process Name</th>
+            <th>Resource</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.ProcessWrapperList.Count; i++)
+    {
+        <tr>
+            <td>@Model.ProcessWrapperList[i].ProcessName</td>
+            <td>@Model.ProcessWrapperList[i].ResourceName</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Process", new { id = Model.ProcessWrapperList[i].Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Process", new { id = Model.ProcessWrapperList[i].Id }, null)</td>
+        </tr>
+    }
+</table>
+

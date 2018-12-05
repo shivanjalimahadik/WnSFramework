@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class ResourcesRepository : IResourcesRepository
     {
         /// <summary>
@@ -115,6 +117,15 @@ namespace BusinessLogic
         public Resources[] Delete(string id)
         {
             return _ResourcesDA.DeleteResourcess(id);
+        }
+
+        /// <summary>
+        /// Get all Resources
+        /// </summary>
+        /// <returns></returns>
+        public ResourceWrapper[] GetAllResources()
+        {
+            return _ResourcesDA.GetAllResources();
         }
     }
 }

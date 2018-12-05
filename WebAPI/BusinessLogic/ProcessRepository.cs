@@ -12,6 +12,8 @@ namespace BusinessLogic
     using BusinessLogic.Interface;
     using DataAccess.Interface;
     using Entities;
+    using Entities.Wrappers;
+
     public class ProcessRepository : IProcessRepository
     {
         /// <summary>
@@ -115,6 +117,11 @@ namespace BusinessLogic
         public Process[] Delete(string id)
         {
             return _ProcessDA.DeleteProcesss(id);
+        }
+
+        public ProcessWrapper[] GetAllProcess()
+        {
+            return _ProcessDA.GetAllProcess();
         }
     }
 }

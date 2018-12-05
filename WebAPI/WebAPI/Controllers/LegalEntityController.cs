@@ -130,5 +130,25 @@ namespace WebAPI.Controllers
 
             return View("Index", legalEntityViewModel);
         }
+
+        public ActionResult Delete(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                var legalEntityUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "LegalEntity", id = id }, Request.Url.Scheme);
+                var responseTask = client.DeleteAsync(legalEntityUrl);
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<LegalEntity>();
+                    readTask.Wait();
+                    var l = readTask.Result;
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

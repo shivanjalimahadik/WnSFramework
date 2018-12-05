@@ -60,7 +60,7 @@ namespace WebAPI.Controllers
 
         public ActionResult New()
         {
-           BusinessUnitsViewModel businessUnitViewModel = new BusinessUnitsViewModel
+            BusinessUnitsViewModel businessUnitModel = new BusinessUnitsViewModel
             {
                 LegalEntityList = (IList<LegalEntity>)TempData["LEList"],
                 LEList = ((IList<LegalEntity>)TempData["LEList"]).Select(c => new SelectListItem
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
                 })
             };
 
-            return View(businessUnitViewModel);
+            return View(businessUnitModel);
         }
 
         public ActionResult Edit(string id)

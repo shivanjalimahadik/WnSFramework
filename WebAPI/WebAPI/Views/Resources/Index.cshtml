@@ -1,0 +1,30 @@
+﻿@model WebAPI.ViewModels.ResourceViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Resource</h2>
+
+<br />
+
+@Html.ActionLink("Add New", "New", "Resources")
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Resource Names</th>
+            <th>Resource Center Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.ResourceWrapperList.Count(); i++)
+    {
+        <tr>
+            <td>@Model.ResourceWrapperList[i].ResourceName</td>
+            <td>@Model.ResourceWrapperList[i].ResourceCenterName</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Resources", new { id = Model.ResourceWrapperList[i].Id }, null)</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Resources", new { id = Model.ResourceWrapperList[i].Id }, null)</td>
+        </tr>
+    }
+</table>
+
