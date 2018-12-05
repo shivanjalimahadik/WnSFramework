@@ -14,6 +14,8 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// UserRoleMappingDA class holds method implementation for database operations
@@ -45,7 +47,23 @@ namespace DataAccess
         /// <returns>UserRoleMapping collection</returns>
         public UserRoleMapping[] AddUserRoleMappings(UserRoleMapping[] userRoleMappings)
         {
-            return this.Add(userRoleMappings);
+            string roleId = string.Empty;
+
+            for (int i = 0; i < userRoleMappings.Count(); i++)
+            {
+                roleId += userRoleMappings[i].RoleID.ToString() + ',';
+            }
+
+            roleId = roleId.Remove(roleId.LastIndexOf(','));
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserID", userRoleMappings[0].UserID, dbType: System.Data.DbType.Guid);
+            parameters.Add("@RoleID", roleId, dbType: System.Data.DbType.String);
+
+            this.ExecuteStoredProcedure("usp_InsertUserRoleMapping", parameters);
+
+            //return this.Add(userRoleMappings);
+            return userRoleMappings;
         }
 
         /// <summary>
@@ -76,7 +94,7 @@ namespace DataAccess
         /// <returns>Array of UserRoleMapping</returns>
         public UserRoleMapping[] GetUserRoleMappings(IEnumerable<Guid?> ids)
         {
-            var sql = string.Format("SELECT * FROM {0} WHERE Id IN @ids AND IsDeleted = 0", this.GetTableName());
+            var sql = string.Format("SELECT * FROM {0} WHERE UserId IN @ids AND IsActive = 1", this.GetTableName());
             return this.Find(sql, new { ids }).ToArray();
         }
 
@@ -87,6 +105,24 @@ namespace DataAccess
         public UserRoleMapping[] GetAll()
         {
             return this.FindAll().ToArray();
+        }
+
+        /// <summary>
+        /// Get all UserRoleMappings
+        /// </summary>
+        /// <returns>Array of UserRoleMapping</returns>
+        public UserRoleWrapper[] GetAllUserRoleMapping()
+        {
+            List<UserRoleWrapper> userRoleWrapper = new List<UserRoleWrapper>();
+            var sql = string.Format("SELECT DISTINCT map.UserID, users.UserName, Users.FirstName, users.LastName, " +
+                " dbo.fn_GetRoleList(map.UserID) AS AssignedRoles from {0} map inner join Roles  on map.RoleID = roles.id  " +
+                " inner join Users on map.UserID = users.Id where map.IsActive = 1 ", GetTableName());
+
+            var dynamicUR = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(UserRoleWrapper), new List<string> { "UserID" });
+            userRoleWrapper = (Slapper.AutoMapper.MapDynamic<UserRoleWrapper>(dynamicUR) as IEnumerable<UserRoleWrapper>).ToList();
+
+            return userRoleWrapper.ToArray();
         }
 
         /// <summary>
@@ -128,7 +164,22 @@ namespace DataAccess
         {
             if (userRoleMappings.Any())
             {
-                this.Update(userRoleMappings);
+                //this.Update(userRoleMappings);
+
+                string roleId = string.Empty;
+
+                for (int i = 0; i < userRoleMappings.Count(); i++)
+                {
+                    roleId += userRoleMappings[i].RoleID.ToString() + ',';
+                }
+
+                roleId = roleId.Remove(roleId.LastIndexOf(','));
+
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@UserID", userRoleMappings[0].UserID, dbType: System.Data.DbType.Guid);
+                parameters.Add("@RoleID", roleId, dbType: System.Data.DbType.String);
+
+                this.ExecuteStoredProcedure("usp_UpdateUserRoleMapping", parameters);
             }
 
             return userRoleMappings;
@@ -143,8 +194,13 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@UserID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("usp_DeleteUserRoleMapping", parameters);
             }
 
             return null;
@@ -166,7 +222,7 @@ namespace DataAccess
         /// <returns>Dynamic object</returns>
         internal override dynamic Mapping(UserRoleMapping item)
         {
-            if(string.IsNullOrEmpty(Convert.ToString(item.Id)) || string.Equals(Convert.ToString(item.Id), "00000000-0000-0000-0000-000000000000"))
+            if (string.IsNullOrEmpty(Convert.ToString(item.Id)) || string.Equals(Convert.ToString(item.Id), "00000000-0000-0000-0000-000000000000"))
             {
                 item.Id = Guid.NewGuid();
             }

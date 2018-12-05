@@ -1,0 +1,33 @@
+﻿@model WebAPI.ViewModels.UserRoleMappingViewModel
+@{
+    ViewBag.Title = "User-Role Mapping";
+}
+
+<h3>User Role Mapping</h3>
+<br />
+
+@Html.ActionLink("Add New","New","UserRoleMapping")
+
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>User name</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Assigned Roles</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.UserRoleWrapper.Count; i++)
+    {
+        <tr>
+            <td>@Model.UserRoleWrapper[i].UserName</td>
+            <td>@Model.UserRoleWrapper[i].FirstName</td>
+            <td>@Model.UserRoleWrapper[i].LastName</td>
+            <td>@Model.UserRoleWrapper[i].AssignedRoles</td>
+            <td>@Html.ActionLink("Edit", "Edit", "UserRoleMapping", new { id = Model.UserRoleWrapper[i].UserID }, null)</td>
+            <td>@Html.ActionLink("Delete","Delete","UserRoleMapping", new { id = Model.UserRoleWrapper[i].UserID}, null)</td>
+        </tr>
+    }
+</table>
