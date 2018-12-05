@@ -15,6 +15,8 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
+    using System.Data;
 
     /// <summary>
     /// BusinessUnitDA class holds method implementation for database operations
@@ -44,9 +46,38 @@ namespace DataAccess
         /// </summary>
         /// <param name="businessUnits">Array of BusinessUnit</param>
         /// <returns>BusinessUnit collection</returns>
-        public BusinessUnit[] AddBusinessUnits(BusinessUnit[] businessUnits)
+        public BusinessUnit[] AddBusinessUnits  (BusinessUnit[] businessUnits)
         {
-            return this.Add(businessUnits);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < businessUnits.Count(); i++)
+            {
+                parameters.Add("Id", businessUnits[i].Id, dbType: System.Data.DbType.Guid);
+                parameters.Add("BusinessUnitName", businessUnits[i].BusinessUnitName, dbType: System.Data.DbType.String);
+                parameters.Add("BusinessUnitDescription", businessUnits[i].BusinessUnitDescription, dbType: System.Data.DbType.String);
+                parameters.Add("LegalEntityID", businessUnits[i].LegalEntityID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", businessUnits[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", businessUnits[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", businessUnits[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", businessUnits[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", businessUnits[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", businessUnits[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", businessUnits[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", businessUnits[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", businessUnits[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", businessUnits[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", businessUnits[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", businessUnits[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", businessUnits[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", businessUnits[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", businessUnits[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertBUDetails", parameters);
+
+
+
+            return null;
         }
 
         /// <summary>
