@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// ProcessDA class holds method implementation for database operations
@@ -87,6 +88,19 @@ namespace DataAccess
         public Process[] GetAll()
         {
             return this.FindAll().ToArray();
+        }
+
+        public ProcessWrapper[] GetAllProcess()
+        {
+            List<ProcessWrapper> pWrapper = new List<ProcessWrapper>();
+            var sql = string.Format("SELECT P.Id, P.ProcessName, R.ResourceName FROM {0} P INNER JOIN {1} R ON " +
+                " P.ResourcesID = R.Id WHERE P.IsActive = 1 AND R.IsActive = 1 ", GetTableName(), TableNameConstants.Resources);
+
+            var dynamicP = base.FindDynamic(sql, new { });
+            Slapper.AutoMapper.Configuration.AddIdentifiers(typeof(ProcessWrapper), new List<string> { "Id" });
+            pWrapper = (Slapper.AutoMapper.MapDynamic<ProcessWrapper>(dynamicP) as IEnumerable<ProcessWrapper>).ToList();
+
+            return pWrapper.ToArray();
         }
 
         /// <summary>

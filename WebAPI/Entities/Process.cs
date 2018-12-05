@@ -6,6 +6,5 @@
     {
         public string ProcessName { get; set; }
 
-        public Guid ResourcesID { get; set; }
     }
 }

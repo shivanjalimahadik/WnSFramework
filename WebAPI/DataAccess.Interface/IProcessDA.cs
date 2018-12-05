@@ -10,6 +10,7 @@ namespace DataAccess.Interface
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Entities;
+    using Entities.Wrappers;
 
     /// <summary>
     /// IProcess interface. Used to define all abstract methods of Process proces.
@@ -77,5 +78,11 @@ namespace DataAccess.Interface
         /// <param name="id">Guid representing Process id</param>
         /// <returns>Array of Process proces</returns>
         Process[] DeleteProcesss(string id);
+
+        /// <summary>
+        /// Get all Process
+        /// </summary>
+        /// <returns></returns>
+        ProcessWrapper[] GetAllProcess();
     }
 }

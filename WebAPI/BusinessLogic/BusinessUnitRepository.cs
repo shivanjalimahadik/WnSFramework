@@ -119,6 +119,10 @@ namespace BusinessLogic
             return _BusinessUnitDA.DeleteBusinessUnits(id);
         }
 
+        /// <summary>
+        /// Get all Business units
+        /// </summary>
+        /// <returns></returns>
         public BUWrapper[] GetAllBusinessUnits()
         {
             return _BusinessUnitDA.GetAllBusinessUnits();
