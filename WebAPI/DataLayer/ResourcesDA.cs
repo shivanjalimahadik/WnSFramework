@@ -15,6 +15,7 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// ResourcesDA class holds method implementation for database operations
@@ -46,7 +47,32 @@ namespace DataAccess
         /// <returns>Resources collection</returns>
         public Resources[] AddResourcess(Resources[] resources)
         {
-            return this.Add(resources);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < resources.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("ResourceName", resources[i].ResourceName, dbType: System.Data.DbType.String);
+                parameters.Add("ResourceCenterID", resources[i].ResourceCenterID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", resources[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", resources[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", resources[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", resources[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", resources[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", resources[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", resources[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", resources[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", resources[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", resources[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", resources[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", resources[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", resources[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", resources[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", resources[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertResources", parameters);
+            return null;
         }
 
         /// <summary>
@@ -142,7 +168,15 @@ namespace DataAccess
         {
             if (resources.Any())
             {
-                this.Update(resources);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < resources.Count(); i++)
+                {
+                    parameters.Add("Id", resources[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("ResourceName", resources[i].ResourceName, dbType: System.Data.DbType.String);
+                    parameters.Add("ResourceCenterID", resources[i].ResourceCenterID, dbType: System.Data.DbType.Guid);
+                }
+                this.ExecuteStoredProcedure("UpdateResources", parameters);
             }
 
             return resources;
@@ -157,8 +191,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteResources", parameters);
             }
 
             return null;

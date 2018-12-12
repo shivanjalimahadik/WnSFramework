@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Dapper;
 
     /// <summary>
     /// CostCenterDA class holds method implementation for database operations
@@ -45,7 +46,33 @@ namespace DataAccess
         /// <returns>CostCenter collection</returns>
         public CostCenter[] AddCostCenters(CostCenter[] costCenters)
         {
-            return this.Add(costCenters);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < costCenters.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("CostCenterName", costCenters[i].CostCenterName, dbType: System.Data.DbType.String);
+                parameters.Add("OrganizationUnitID", costCenters[i].OrganizationUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", costCenters[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", costCenters[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", costCenters[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", costCenters[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", costCenters[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", costCenters[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", costCenters[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", costCenters[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", costCenters[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", costCenters[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", costCenters[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", costCenters[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", costCenters[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", costCenters[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", costCenters[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertCostCenter", parameters);
+
+            return costCenters;
         }
 
         /// <summary>
@@ -128,9 +155,16 @@ namespace DataAccess
         {
             if (costCenters.Any())
             {
-                this.Update(costCenters);
-            }
+                //this.Update(costCenters);
+                DynamicParameters parameters = new DynamicParameters();
 
+                for (int i = 0; i < costCenters.Count(); i++)
+                {
+                    parameters.Add("Id", costCenters[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("CostCenterName", costCenters[i].CostCenterName, dbType: System.Data.DbType.String);
+                }
+                this.ExecuteStoredProcedure("UpdateCostCenter", parameters);
+            }
             return costCenters;
         }
 
@@ -143,10 +177,13 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
-            }
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
 
+                this.ExecuteStoredProcedure("DeleteCostCenter", parameters);
+            }
             return null;
         }
 

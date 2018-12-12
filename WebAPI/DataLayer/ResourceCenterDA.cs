@@ -15,6 +15,7 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// ResourceCenterDA class holds method implementation for database operations
@@ -46,7 +47,33 @@ namespace DataAccess
         /// <returns>ResourceCenter collection</returns>
         public ResourceCenter[] AddResourceCenters(ResourceCenter[] resourceCenters)
         {
-            return this.Add(resourceCenters);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < resourceCenters.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("ResourceCenterName", resourceCenters[i].ResourceCenterName, dbType: System.Data.DbType.String);
+                parameters.Add("CostCenterID", resourceCenters[i].CostCenterID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", resourceCenters[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", resourceCenters[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", resourceCenters[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", resourceCenters[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", resourceCenters[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", resourceCenters[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", resourceCenters[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", resourceCenters[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", resourceCenters[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", resourceCenters[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", resourceCenters[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", resourceCenters[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", resourceCenters[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", resourceCenters[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", resourceCenters[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertResourceCenter", parameters);
+
+            return null;
         }
 
         /// <summary>
@@ -142,7 +169,15 @@ namespace DataAccess
         {
             if (resourceCenters.Any())
             {
-                this.Update(resourceCenters);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < resourceCenters.Count(); i++)
+                {
+                    parameters.Add("Id", resourceCenters[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("ResourceCenterName", resourceCenters[i].ResourceCenterName, dbType: System.Data.DbType.String);
+                    parameters.Add("CostCenterID", resourceCenters[i].CostCenterID, dbType: System.Data.DbType.Guid);
+                }
+                this.ExecuteStoredProcedure("UpdateResourceCenter", parameters);
             }
 
             return resourceCenters;
@@ -157,8 +192,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteResourceCenter", parameters);
             }
 
             return null;

@@ -15,6 +15,7 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// OrganizationUnitDA class holds method implementation for database operations
@@ -46,7 +47,33 @@ namespace DataAccess
         /// <returns>OrganizationUnit collection</returns>
         public OrganizationUnit[] AddOrganizationUnits(OrganizationUnit[] organizationUnits)
         {
-            return this.Add(organizationUnits);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < organizationUnits.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("OrganizationUnitName", organizationUnits[i].OrganizationUnitName, dbType: System.Data.DbType.String);
+                parameters.Add("OrganizationUnitDescription", organizationUnits[i].OrganizationUnitDescription, dbType: System.Data.DbType.String);
+                parameters.Add("BusinessUnitID", organizationUnits[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", organizationUnits[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", organizationUnits[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", organizationUnits[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", organizationUnits[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", organizationUnits[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", organizationUnits[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", organizationUnits[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", organizationUnits[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", organizationUnits[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", organizationUnits[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", organizationUnits[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", organizationUnits[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", organizationUnits[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", organizationUnits[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", organizationUnits[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertOUDetails", parameters);
+            return null;
         }
 
         /// <summary>
@@ -142,7 +169,17 @@ namespace DataAccess
         {
             if (organizationUnits.Any())
             {
-                this.Update(organizationUnits);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < organizationUnits.Count(); i++)
+                {
+                    parameters.Add("Id", organizationUnits[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("OrganizationUnitName", organizationUnits[i].OrganizationUnitName, dbType: System.Data.DbType.String);
+                    parameters.Add("OrganizationUnitDescription", organizationUnits[i].OrganizationUnitDescription, dbType: System.Data.DbType.String);
+                    parameters.Add("BusinessUnitID", organizationUnits[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+
+                }
+                this.ExecuteStoredProcedure("UpdateOU", parameters);
             }
 
             return organizationUnits;
@@ -157,8 +194,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteOU", parameters);
             }
 
             return null;

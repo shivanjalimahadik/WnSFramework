@@ -214,5 +214,24 @@ namespace WebAPI.Controllers
 
             return View("NEw", userViewModel);
         }
+
+        public ActionResult Delete(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                var uUrl = Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Users", id = id }, Request.Url.Scheme);
+                var responseTask = client.DeleteAsync(uUrl);
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<Users>();
+                    readTask.Wait();
+                    var uMapping = readTask.Result;
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

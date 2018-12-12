@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Dapper;
 
     /// <summary>
     /// LegalEntityDA class holds method implementation for database operations
@@ -45,7 +46,36 @@ namespace DataAccess
         /// <returns>LegalEntity collection</returns>
         public LegalEntity[] AddLegalEntitys(LegalEntity[] legalEntitys)
         {
-            return this.Add(legalEntitys);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < legalEntitys.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("LegalEntityName", legalEntitys[i].LegalEntityName, dbType: System.Data.DbType.String);
+                parameters.Add("OrganizationUnitID", legalEntitys[i].OrganizationUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("BusinessUnitID", legalEntitys[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", legalEntitys[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", legalEntitys[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", legalEntitys[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", legalEntitys[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", legalEntitys[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", legalEntitys[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", legalEntitys[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", legalEntitys[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", legalEntitys[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", legalEntitys[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", legalEntitys[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", legalEntitys[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", legalEntitys[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", legalEntitys[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", legalEntitys[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertLegalEntity", parameters);
+
+            return legalEntitys;
+
+            //return this.Add(legalEntitys);
         }
 
         /// <summary>
@@ -128,7 +158,17 @@ namespace DataAccess
         {
             if (legalEntitys.Any())
             {
-                this.Update(legalEntitys);
+                //this.Update(legalEntitys);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < legalEntitys.Count(); i++)
+                {
+                    parameters.Add("Id", legalEntitys[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("LegalEntityName", legalEntitys[i].LegalEntityName, dbType: System.Data.DbType.String);
+
+                }
+
+                this.ExecuteStoredProcedure("UpdateLegalEntity", parameters);
             }
 
             return legalEntitys;
@@ -143,8 +183,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteLegalEntity", parameters);
             }
 
             return null;
