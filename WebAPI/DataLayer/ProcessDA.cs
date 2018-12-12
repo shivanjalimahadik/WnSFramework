@@ -15,6 +15,7 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// ProcessDA class holds method implementation for database operations
@@ -46,7 +47,32 @@ namespace DataAccess
         /// <returns>Process collection</returns>
         public Process[] AddProcesss(Process[] process)
         {
-            return this.Add(process);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < process.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("ProcessName", process[i].ProcessName, dbType: System.Data.DbType.String);
+                parameters.Add("ResourcesID", process[i].ResourcesID, dbType: System.Data.DbType.Guid);
+                parameters.Add("UDF1", process[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", process[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", process[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", process[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", process[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", process[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("AppID", process[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", process[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", process[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", process[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", process[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", process[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", process[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", process[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", process[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertProcess", parameters);
+            return null;
         }
 
         /// <summary>
@@ -142,7 +168,15 @@ namespace DataAccess
         {
             if (process.Any())
             {
-                this.Update(process);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < process.Count(); i++)
+                {
+                    parameters.Add("Id", process[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("ProcessName", process[i].ProcessName, dbType: System.Data.DbType.String);
+                    parameters.Add("ResourcesID", process[i].ResourcesID, dbType: System.Data.DbType.Guid);
+                }
+                this.ExecuteStoredProcedure("UpdateProcess", parameters);
             }
 
             return process;
@@ -157,8 +191,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteProcess", parameters);
             }
 
             return null;

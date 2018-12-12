@@ -14,6 +14,7 @@ namespace DataAccess
     using DataAccess.Interface;
     using DataAccess.Util;
     using Entities;
+    using Dapper;
 
     /// <summary>
     /// RolesDA class holds method implementation for database operations
@@ -45,7 +46,33 @@ namespace DataAccess
         /// <returns>Roles collection</returns>
         public Roles[] AddRoless(Roles[] roles)
         {
-            return this.Add(roles);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < roles.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("RoleName", roles[i].RoleName, dbType: System.Data.DbType.String);
+                parameters.Add("UDF1", roles[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", roles[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", roles[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", roles[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", roles[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", roles[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("OrganizationUnitID", roles[i].OrganizationUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("BusinessUnitID", roles[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("AppID", roles[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", roles[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", roles[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", roles[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", roles[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", roles[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", roles[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", roles[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", roles[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertRoles", parameters);
+            return null;
         }
 
         /// <summary>
@@ -128,7 +155,16 @@ namespace DataAccess
         {
             if (roles.Any())
             {
-                this.Update(roles);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < roles.Count(); i++)
+                {
+                    parameters.Add("Id", roles[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("RoleName", roles[i].RoleName, dbType: System.Data.DbType.String);
+
+                }
+
+                this.ExecuteStoredProcedure("UpdateRoles", parameters);
             }
 
             return roles;
@@ -143,8 +179,12 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteRoles", parameters);
             }
 
             return null;

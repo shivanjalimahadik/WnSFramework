@@ -15,6 +15,7 @@ namespace DataAccess
     using DataAccess.Util;
     using Entities;
     using Entities.Wrappers;
+    using Dapper;
 
     /// <summary>
     /// UsersDA class holds method implementation for database operations
@@ -46,7 +47,40 @@ namespace DataAccess
         /// <returns>Users collection</returns>
         public Users[] AddUserss(Users[] users)
         {
-            return this.Add(users);
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < users.Count(); i++)
+            {
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
+                parameters.Add("UserName", users[i].UserName, dbType: System.Data.DbType.String);
+                parameters.Add("FirstName", users[i].FirstName, dbType: System.Data.DbType.String);
+                parameters.Add("LastName", users[i].LastName, dbType: System.Data.DbType.String);
+                parameters.Add("Email", users[i].Email, dbType: System.Data.DbType.String);
+                parameters.Add("Password", users[i].Password, dbType: System.Data.DbType.String);
+                parameters.Add("PasswordExpiry", users[i].PasswordExpiry, dbType: System.Data.DbType.String);
+                parameters.Add("ContactNo", users[i].ContactNo, dbType: System.Data.DbType.String);
+                parameters.Add("UDF1", users[i].UDF1, dbType: System.Data.DbType.String);
+                parameters.Add("UDF2", users[i].UDF2, dbType: System.Data.DbType.String);
+                parameters.Add("UDF3", users[i].UDF3, dbType: System.Data.DbType.String);
+                parameters.Add("UDF4", users[i].UDF4, dbType: System.Data.DbType.String);
+                parameters.Add("UDF5", users[i].UDF5, dbType: System.Data.DbType.String);
+                parameters.Add("PortalID", users[i].PortalID, dbType: System.Data.DbType.String);
+                parameters.Add("OrganizationUnitID", users[i].OrganizationUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("BusinessUnitID", users[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+                parameters.Add("AppID", users[i].AppID, dbType: System.Data.DbType.String);
+                parameters.Add("PrimaryIPAdd", users[i].PrimaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("SecondaryIPAdd", users[i].SecondaryIPAdd, dbType: System.Data.DbType.String);
+                parameters.Add("AzureRegion", users[i].AzureRegion, dbType: System.Data.DbType.String);
+                parameters.Add("CreatedOn", users[i].CreatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("CreatedBy", users[i].CreatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("UpdatedOn", users[i].UpdatedOn, dbType: System.Data.DbType.DateTime);
+                parameters.Add("UpdatedBy", users[i].UpdatedBy, dbType: System.Data.DbType.String);
+                parameters.Add("IsActive", users[i].IsActive, dbType: System.Data.DbType.Boolean);
+            }
+
+            this.ExecuteStoredProcedure("InsertUser", parameters);
+
+            return null;
         }
 
         /// <summary>
@@ -147,9 +181,20 @@ namespace DataAccess
         {
             if (users.Any())
             {
-                this.Update(users);
-            }
+                DynamicParameters parameters = new DynamicParameters();
 
+                for (int i = 0; i < users.Count(); i++)
+                {
+                    parameters.Add("Id", users[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("UserName", users[i].UserName, dbType: System.Data.DbType.String);
+                    parameters.Add("FirstName", users[i].FirstName, dbType: System.Data.DbType.String);
+                    parameters.Add("LastName", users[i].LastName, dbType: System.Data.DbType.String);
+                    parameters.Add("Email", users[i].Email, dbType: System.Data.DbType.String);
+                    parameters.Add("OrganizationUnitID", users[i].OrganizationUnitID, dbType: System.Data.DbType.Guid);
+                    parameters.Add("BusinessUnitID", users[i].BusinessUnitID, dbType: System.Data.DbType.Guid);
+                }
+                this.ExecuteStoredProcedure("UpdateUser", parameters);
+            }
             return users;
         }
 
@@ -162,10 +207,14 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
-            }
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
 
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteUser", parameters);
+            }
             return null;
         }
 
@@ -200,7 +249,6 @@ namespace DataAccess
                 item.ContactNo,
                 item.PasswordExpiry,
                 item.Password,
-
                 item.UDF1,
                 item.UDF2,
                 item.UDF3,

@@ -52,7 +52,7 @@ namespace DataAccess
 
             for (int i = 0; i < businessUnits.Count(); i++)
             {
-                parameters.Add("Id", businessUnits[i].Id, dbType: System.Data.DbType.Guid);
+                parameters.Add("Id", Guid.NewGuid(), dbType: System.Data.DbType.Guid);
                 parameters.Add("BusinessUnitName", businessUnits[i].BusinessUnitName, dbType: System.Data.DbType.String);
                 parameters.Add("BusinessUnitDescription", businessUnits[i].BusinessUnitDescription, dbType: System.Data.DbType.String);
                 parameters.Add("LegalEntityID", businessUnits[i].LegalEntityID, dbType: System.Data.DbType.Guid);
@@ -74,8 +74,6 @@ namespace DataAccess
             }
 
             this.ExecuteStoredProcedure("InsertBUDetails", parameters);
-
-
 
             return null;
         }
@@ -174,7 +172,18 @@ namespace DataAccess
         {
             if (businessUnits.Any())
             {
-                this.Update(businessUnits);
+                //this.Update(businessUnits);
+                DynamicParameters parameters = new DynamicParameters();
+
+                for (int i = 0; i < businessUnits.Count(); i++)
+                {
+                    parameters.Add("Id", businessUnits[i].Id, dbType: System.Data.DbType.Guid);
+                    parameters.Add("BusinessUnitName", businessUnits[i].BusinessUnitName, dbType: System.Data.DbType.String);
+                    parameters.Add("BusinessUnitDescription", businessUnits[i].BusinessUnitDescription, dbType: System.Data.DbType.String);
+                    parameters.Add("LegalEntityID", businessUnits[i].LegalEntityID, dbType: System.Data.DbType.Guid);
+
+                }
+                this.ExecuteStoredProcedure("UpdateBU", parameters);
             }
 
             return businessUnits;
@@ -189,10 +198,14 @@ namespace DataAccess
         {
             if (id != null)
             {
-                string[] ids = { id };
-                this.DeleteByDbId(ids);
-            }
+                //string[] ids = { id };
+                //this.DeleteByDbId(ids);
 
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ID", new Guid(id), dbType: System.Data.DbType.Guid);
+
+                this.ExecuteStoredProcedure("DeleteBU", parameters);
+            }
             return null;
         }
 
